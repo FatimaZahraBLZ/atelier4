@@ -27,5 +27,13 @@ pipeline {
                 sh 'docker push ${DOCKER_HUB_CREDENTIALS_USR}/my-python-app:latest'
             }
         }
+        stage('Deploy Locally') {
+            steps {
+                sh 'echo "Deploying the application locally..."'
+                sh 'docker stop my-python-app || true'
+                sh 'docker rm my-python-app || true'
+                sh 'docker run -d -p 5000:5000 --name my-python-app my-python-app'
+            }
+        }
     }
 }
